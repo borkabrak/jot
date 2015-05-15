@@ -1,0 +1,19 @@
+#!/usr/bin/env ruby
+# vim: ft=ruby
+require 'sinatra'
+require 'erb'
+require 'sqlite3'
+
+get '/' do
+
+    @content = begin
+        db = SQLite3::Database.new "jot"
+        "DB Version: #{db.get_first_value 'SELECT SQLITE_VERSION()'}"
+    rescue SQLite3::Exception => e
+        "Exception occurred: #{e}"
+    ensure
+        db.close if db
+    end
+
+    erb :index
+end

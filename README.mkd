@@ -1,0 +1,4 @@
+JOT Notes
+=========
+
+A portable, RESTful notation service using Sinatra

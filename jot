@@ -1,10 +1,29 @@
 #!/usr/bin/env ruby
-# vim: ft=ruby
 require 'sinatra'
 require 'erb'
 require 'sqlite3'
+require 'haml'
 
-get '/' do
+def show(template, context = nil)
+    # This method wraps whatever other template you want to use inside the
+    # standard index HTML boilerplate
+    #
+    # Call this method like this:
+    #   show <templatename(symbol), <localVariable symbol> => <value of local variable>
+    #   In the template, refer to your variables using localVariable
+    #
+    #   See an example in the get '/list' route, using the 'list' template: 
+    #       show :list, :jots => @jots
+    if (template.class == String)
+        @content = template
+        erb :index 
+    else
+        @content = erb template, :locals => context
+        erb :index
+    end
+end
+
+get '/db' do
 
     @content = begin
         db = SQLite3::Database.new "jot"
@@ -16,4 +35,23 @@ get '/' do
     end
 
     erb :index
+end
+
+get '/' do
+    show "This is the index page"
+end
+
+get '/list' do
+    db = SQLite3::Database.open "jots.db"
+    db.results_as_hash = true
+    @jots = db.execute("select body from jots");
+    show :list, :jots => @jots
+end
+
+get '/create' do
+    erb :create
+end
+
+put '/create' do
+    "[Actually create the jot and redirect into a result screen]"
 end

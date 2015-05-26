@@ -1,0 +1,4 @@
+$(function(){
+    // Attach UI events
+
+});

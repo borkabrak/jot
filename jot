@@ -59,7 +59,7 @@ get '/create' do
     show :create
 end
 
-put '/create' do
+put '*' do
     body = params['body'];
     db = get_db
 

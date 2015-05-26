@@ -5,8 +5,7 @@ function notify(message){
 $(function(){
     // Attach UI events
     $("form#create").on('submit', function(event){
-        $.ajax({
-            url: "/create",
+        $.ajax("/", {
             method: "put",
             data: {
                 body: $(event.target.body).val()

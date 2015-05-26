@@ -9,11 +9,13 @@ def show(template, context = nil)
     # standard index HTML boilerplate
     #
     # Call this method like this:
-    #   show <templatename(symbol), <localVariable symbol> => <value of local variable>
-    #   In the template, refer to your variables using localVariable
     #
-    #   See an example in the get '/list' route, using the 'list' template: 
-    #       show :list, :jots => @jots
+    #   1.) show <templatename(symbol), <localVariable symbol> => <value of local variable>
+    #       In the template, refer to your variables using localVariable
+    #
+    #       See an example in the get '/list' route, using the 'list' template: 
+    #           show :list, :jots => @jots
+    #   2.) Or, just pass it a string, and it will use that for the content in the regular index template
     if (template.class == String)
         @content = template
         erb :index 
@@ -25,7 +27,7 @@ end
 
 get '/db' do
 
-    @content = begin
+    content = begin
         db = SQLite3::Database.new "jot"
         "DB Version: #{db.get_first_value 'SELECT SQLITE_VERSION()'}"
     rescue SQLite3::Exception => e
@@ -34,7 +36,7 @@ get '/db' do
         db.close if db
     end
 
-    erb :index
+    show content
 end
 
 get '/' do
@@ -49,7 +51,7 @@ get '/list' do
 end
 
 get '/create' do
-    erb :create
+    show :create
 end
 
 put '/create' do

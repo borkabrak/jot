@@ -1,5 +1,5 @@
 function notify(message){
-    $("#notify").html(message);
+    $("#notify").html(message).css("display", "block");
 };
 
 $(function(){

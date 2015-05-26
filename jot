@@ -55,5 +55,6 @@ get '/create' do
 end
 
 put '/create' do
-    "[Actually create the jot and redirect into a result screen]"
+    body = params['body'];
+    "Body: #{body}"
 end

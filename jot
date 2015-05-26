@@ -25,6 +25,12 @@ def show(template, context = nil)
     end
 end
 
+def get_db
+    db = SQLite3::Database.open "jots.db"
+    db.results_as_hash = true
+    return db
+end
+
 get '/db' do
 
     content = begin
@@ -44,8 +50,7 @@ get '/' do
 end
 
 get '/list' do
-    db = SQLite3::Database.open "jots.db"
-    db.results_as_hash = true
+    db = get_db
     @jots = db.execute("select body from jots");
     show :list, :jots => @jots
 end
@@ -56,5 +61,16 @@ end
 
 put '/create' do
     body = params['body'];
-    "Body: #{body}"
+    db = get_db
+
+    result = begin
+        db.execute("insert into Jots (body) values('#{body}')")
+        "Jot successfully created"
+    rescue SQLite3::Exception => e
+        "DB Error: #{e}"
+    ensure
+        db.close if db
+    end
+
+    return result
 end

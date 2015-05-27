@@ -63,6 +63,11 @@ get '/menu' do
     erb :menu
 end
 
+get '/notify' do
+    @message = params['message']
+    erb :notify
+end
+
 put '/' do
     body = params['body'];
     db = get_db

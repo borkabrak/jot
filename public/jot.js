@@ -1,13 +1,14 @@
 function notify(message){
-    $("#notify").html(message).css("display", "block");
+    load("/notify", "#notify", { message: message });
 };
 
-function load(url, container){
+function load(url, container, data){
     // GET a url and show the result in an element
     $.ajax(url, {
         success: function(response){
             $(container).html(response);
-        }
+        },
+        data: (typeof data === "undefined" ? undefined : data)
     });
 }
 

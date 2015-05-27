@@ -56,14 +56,14 @@ get '/list' do
 end
 
 get '/create' do
-    show :create
+    erb :create
 end
 
 get '/menu' do
     erb :menu
 end
 
-put '*' do
+put '/' do
     body = params['body'];
     db = get_db
 

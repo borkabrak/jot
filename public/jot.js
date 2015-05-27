@@ -2,17 +2,18 @@ function notify(message){
     $("#notify").html(message).css("display", "block");
 };
 
-function load(thing){
-    $.ajax("/" + thing, {
+function load(url, container){
+    // GET a url and show the result in an element
+    $.ajax(url, {
         success: function(response){
-            $("#" + thing).html(response);
+            $(container).html(response);
         }
     });
 }
 
 $(function(){
     // Attach UI events
-    $("form#create").on('submit', function(event){
+    $(document).on('submit',"form#create", function(event){
         $.ajax("/", {
             method: "put",
             data: {
@@ -21,6 +22,7 @@ $(function(){
 
             success: function(response, statustext, xhr){
                 notify(response);
+                load("/list", "#main");
             },
 
             error: function(xhr, statustext, error){
@@ -31,7 +33,7 @@ $(function(){
     });
 
     // Load page components
-    load("list");
-    load("menu");
+    load("/list", "#main");
+    load("/menu", "#menu");
 
 });

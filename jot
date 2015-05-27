@@ -46,17 +46,21 @@ get '/db' do
 end
 
 get '/' do
-    show "This is the index page"
+    erb :index
 end
 
 get '/list' do
     db = get_db
     @jots = db.execute("select body from jots");
-    show :list, :jots => @jots
+    erb :list, :locals => { :jots => @jots }
 end
 
 get '/create' do
     show :create
+end
+
+get '/menu' do
+    erb :menu
 end
 
 put '*' do

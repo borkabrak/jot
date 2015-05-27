@@ -2,6 +2,14 @@ function notify(message){
     $("#notify").html(message).css("display", "block");
 };
 
+function load(thing){
+    $.ajax("/" + thing, {
+        success: function(response){
+            $("#" + thing).html(response);
+        }
+    });
+}
+
 $(function(){
     // Attach UI events
     $("form#create").on('submit', function(event){
@@ -21,4 +29,9 @@ $(function(){
         });
         return false;
     });
+
+    // Load page components
+    load("list");
+    load("menu");
+
 });

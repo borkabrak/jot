@@ -22,7 +22,7 @@ $(function(){
 
             success: function(response, statustext, xhr){
                 notify(response);
-                load("/list", "#main");
+                load("/list", "#display");
             },
 
             error: function(xhr, statustext, error){
@@ -33,7 +33,7 @@ $(function(){
     });
 
     // Load page components
-    load("/list", "#main");
-    load("/menu", "#menu");
+    load("/list", "#display");
+    load("/create", "#control");
 
 });

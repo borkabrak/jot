@@ -49,7 +49,7 @@ end
 
 get '/list' do
     db = get_db
-    @jots = db.execute("select body from jots");
+    @jots = db.execute("select id, body from jots");
     erb :list, :locals => { :jots => @jots }
 end
 
@@ -72,6 +72,19 @@ put '/' do
     begin
         db.execute("insert into Jots (body, created_on, updated_on) values('#{body}', datetime('now'), datetime('now'))")
         "Jot successfully created"
+    rescue SQLite3::Exception => e
+        "DB Error: #{e}"
+    ensure
+        db.close if db
+    end
+end
+
+delete '/' do
+    id = params['id']
+    db = get_db
+    begin
+        db.execute("delete from Jots where id = #{id}")
+        "Jot deleted"
     rescue SQLite3::Exception => e
         "DB Error: #{e}"
     ensure

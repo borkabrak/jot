@@ -1,6 +1,6 @@
 <h2>List Jots</h2>
 <ul>
 <% jots.each do |jot| %>
-  <li><%= jot['body'] %> 
+    <li><%= jot['body'] %><a href="#" onclick="call({ method: 'delete', url: '/', data: {id:'<%= jot['id'] %>'}})">Delete</a>
 <% end %>
 </ul>

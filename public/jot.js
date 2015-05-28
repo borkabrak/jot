@@ -2,15 +2,30 @@ function notify(message){
     load("/notify", "#notify", { message: message });
 };
 
+// GET a url and show the result in an element
 function load(url, container, data){
-    // GET a url and show the result in an element
+
+    // default container element is the main display
+    if (typeof container == "undefined") { container = "#display" };
+
     $.ajax(url, {
         success: function(response){
             $(container).html(response);
         },
         data: (typeof data === "undefined" ? undefined : data)
     });
-}
+};
+
+// Perform an AJAX call with standardized handlers
+function call(params){
+    if( typeof params.success === "undefined") {
+        params.success = function(response, statustext, xhr){
+            $("#notify").html(response);
+        };
+    }
+    $.ajax(params);
+    load('/list');
+};
 
 $(function(){
     // Attach UI events
@@ -34,7 +49,7 @@ $(function(){
     });
 
     // Load page components
-    load("/list", "#display");
+    load("/list");
     load("/create", "#control");
 
 });

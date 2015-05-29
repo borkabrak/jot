@@ -2,7 +2,6 @@
 require 'sinatra'
 require 'erb'
 require 'sqlite3'
-require 'haml'
 
 def show(template, context = nil)
     # This method wraps whatever other template you want to use inside the

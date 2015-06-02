@@ -1,4 +1,5 @@
 function notify(message){
+    $("#notify").show();
     load("/notify", "#notify", { message: message });
 };
 
@@ -37,12 +38,19 @@ $(function(){
             },
 
             success: function(response, statustext, xhr){
+                // report the outcome
                 notify(response);
+                // reload the list
                 load("/list", "#display");
+                var form = event.target;
+                // clear the form
+                form.reset();
+                // put the cursor in the input
+                form[0].focus();
             },
 
             error: function(xhr, statustext, error){
-                notify(error);
+                notify("%s (status: %s, XHR:%o)", error, statustext, xhr);
             }
         });
         return false;
